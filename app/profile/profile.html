@@ -1,0 +1,142 @@
+<!-- {{ me | json }} -->
+
+<div class="row">
+
+  <section id="options" class="col-md-3">
+    <button ng-click="showOptions = !showOptions">
+      <span ng-if="!showOptions">Show</span>
+      <span ng-if="showOptions">Hide</span>
+      options
+    </button>
+
+    <div ng-if="showOptions">
+      <div class="form-group">
+          <label for="github">Github:</label>
+          <input type="text" class="form-control" name="github" id="github" ng-model="ProfileCtrl.options.github"></input>
+      </div>
+      <div class="form-group">
+          <label for="phone">Phone:</label>
+          <input type="text" class="form-control" name="phone" id="phone" ng-model="ProfileCtrl.options.phone"></input>
+      </div>
+    </div>
+
+  </section>
+
+  <div ng-if="ProfileCtrl.hasProfile" ng-class="{'col-md-12': !showOptions, 'col-md-9': showOptions}">
+
+    <header>
+      <hgroup>
+        <h1>{{ProfileCtrl.me.firstName}} {{ProfileCtrl.me.lastName}}</h1>
+        <h2>
+    <!--       <span class="fa-stack fa-lg">
+            <i class="fa fa-square-o fa-stack-2x"></i>
+            <i class="fa fa-code fa-stack-1x"></i>
+          </span> -->
+          {{ProfileCtrl.me.headline}}
+        </h2>
+      </hgroup>
+
+      <ul class="contact">
+        <li><i class="fa fa-map-marker fa-fw"></i> Location: {{ProfileCtrl.me.location.name}}</li>
+        <li ng-if="ProfileCtrl.options.phone"><i class="fa fa-phone-square fa-fw"></i> Phone: {{ ProfileCtrl.options.phone }}</li>
+        <li><i class="fa fa-envelope fa-fw"></i> Email: <a href="mailto:{{ProfileCtrl.me.emailAddress}}">{{ProfileCtrl.me.emailAddress}}</a></li>
+        <li><i class="fa fa-linkedin-square fa-fw"></i> Linkedin: <a href="{{ ProfileCtrl.me.publicProfileUrl }}">{{ ProfileCtrl.me.publicProfileUrl }}</a></li>
+        <li ng-if="ProfileCtrl.options.github"><i class="fa fa-github-square fa-fw"></i> Github: <a href="{{ ProfileCtrl.options.github }}">{{ ProfileCtrl.options.github }}</a></li>
+      </ul>
+    </header>
+
+    <section class="foreword">
+      <h3><i class="fa fa-bars fa-fw"></i> Foreword</h3>
+      <p ng-bind-html="ProfileCtrl.me.summary"></p>
+    </section>
+
+    <section ng-if="ProfileCtrl.me.positions._total > 0" id="positions">
+      <h3><i class="fa fa-star fa-fw"></i> Positions held</h3>
+      <div ng-repeat="position in ProfileCtrl.me.positions.values" class="position">
+        <hgroup>
+          <h4>{{position.title}}</h4>
+          <h5>{{position.company.name}} <em>({{ProfileCtrl.formatDate(position.startDate)}} - {{ProfileCtrl.formatDate(position.endDate, 'Current')}})</em></h5>
+        </hgroup>
+        <p ng-bind-html="position.summary"></p>
+      </div>
+    </section>
+
+    <section ng-if="ProfileCtrl.me.courses._total > 0">
+      <h3><i class="fa fa-puzzle-piece fa-fw"></i> Courses Attended</h3>
+      <ol>
+        <li ng-repeat="course in ProfileCtrl.me.courses.values | orderBy:-number:reverse">
+          {{course.name}} ({{ course.number }})
+        </li>
+      </ol>
+    </section>
+
+    <section ng-if="ProfileCtrl.me.educations._total > 0" id="education">
+      <h3><i class="fa fa-book fa-fw"></i> Education</h3>
+      <div ng-repeat="education in ProfileCtrl.me.educations.values" class="school">
+        <h4>{{education.schoolName}} <em>({{ProfileCtrl.formatDate(education.startDate)}} - {{ProfileCtrl.formatDate(education.endDate)}})</em></h4>
+        <h5>{{education.fieldOfStudy}}</h5>
+        <p>{{education.notes}}</p>
+      </div>
+    </section>
+
+    <section ng-if="ProfileCtrl.me.honorsAwards._total > 0">
+      <h3>Honours and Awards</h3>
+      <ol>
+        <li ng-repeat="award in ProfileCtrl.me.honorsAwards.values">
+          {{award.name}} ({{award.issuer}})
+        </li>
+      </ol>
+    </section>
+
+  <!--     <section ng-if="ProfileCtrl.me.languages._total > 0">
+      <h3>Languages Spoken</h3>
+      <ol>
+        <li ng-repeat="spoken in ProfileCtrl.me.languages.values">
+          {{spoken.language.name}}
+        </li>
+      </ol>
+    </section> -->
+
+  <!--     <section ng-if="ProfileCtrl.me.publications._total > 0">
+      <h3>Publications</h3>
+      <ol>
+        <li ng-repeat="publication in ProfileCtrl.me.publications.values">
+          {{publication.title}} ({{ProfileCtrl.formatDate(publication.date)}}) {{ ProfileCtrl.me.publications | json }}
+        </li>
+      </ol>
+    </section> -->
+
+    <section ng-if="ProfileCtrl.me.skills._total > 0">
+      <h3><i class="fa fa-code fa-fw"></i> Skills</h3>
+      <div class="row">
+        <div class="col-md-4" ng-repeat="skills in ProfileCtrl.me.skills.values">
+          <ul>
+            <li ng-repeat="skill in skills">
+              {{skill.skill.name}}
+            </li>
+          </ul>
+      </div>
+    </section>
+
+    <section ng-if="ProfileCtrl.me.memberUrlResources._total > 0">
+      <h3>URLs</h3>
+      <ol>
+        <li ng-repeat="url in ProfileCtrl.me.memberUrlResources.values">
+          <a href="{{url.url}}" target="_blank">{{url.name}}</a>
+        </li>
+      </ol>
+    </section>
+
+    <section ng-if="ProfileCtrl.me.recommendationsReceived._total > 0">
+      <h3><i class="fa fa-thumbs-up fa-fw"></i> Recommendations</h3>
+      <blockquote ng-repeat="bigUp in ProfileCtrl.me.recommendationsReceived.values" class="recommendation">
+        <p ng-bind-html="bigUp.recommendationText"></p>
+        <footer>
+          <!-- — <cite><a href="http://www.linkedin.com/x/profile/zxqfbiusbj96/{{bigUp.recommender.id}}" target="_blank">{{bigUp.recommender.firstName}} {{bigUp.recommender.lastName}}</a> ({{bigUp.recommendationType.code}})</cite> -->
+          <cite>{{bigUp.recommender.firstName}} {{bigUp.recommender.lastName}} ({{bigUp.recommendationType.code}})</cite>
+        </footer>
+      </blockquote>
+    </section>
+
+  </div>
+</div>

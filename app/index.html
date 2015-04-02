@@ -9,9 +9,11 @@
     <title></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,800' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css({.tmp,app}) styles/main.css -->
-    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="assets/styles/main.css">
     <!-- endbuild -->
   </head>
   <body ng-app="linkedoutApp">
@@ -20,7 +22,7 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div class="container" ng-view></div>
+    <div class="container-fluid" ng-view></div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
      <script>
@@ -48,13 +50,13 @@
     <!-- endbuild -->
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
-    <script src="scripts/app.js"></script>
-    <script src="scripts/controllers/main.js"></script>
-    <script src="scripts/controllers/profile.js"></script>
-    <script src="scripts/services/constants.js"></script>
-    <script src="scripts/services/linkedin.js"></script>
-    <script src="scripts/services/profile.js"></script>
-    <script src="scripts/services/session.js"></script>
+    <script src="app.js"></script>
+    <script src="login/login.js"></script>
+    <script src="profile/profile.js"></script>
+    <script src="components/services/constants.js"></script>
+    <script src="components/services/linkedin.js"></script>
+    <script src="components/services/profile.js"></script>
+    <script src="components/services/session.js"></script>
     <!-- endbuild -->
 </body>
 </html>
